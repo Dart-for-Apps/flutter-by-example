@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'dog_model.dart';
 import 'dog_list.dart';
+import 'add_dog_form.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,15 +14,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        // 앱 전체 텍스트, 아이콘의 색을 하얀색으로 설정
+        // 앱바의 구분을 위해 전체 테마가 dark 임을 명시하고
+        // 앱 전체 아이콘 및 텍스트의 색을 white 로 정정함.
+        brightness: Brightness.dark,
+        primarySwatch: Colors.cyan,
         textTheme: Theme.of(context).textTheme.apply(
           bodyColor: Colors.white,
           displayColor: Colors.white,
         ),
+        primaryTextTheme: Theme.of(context).primaryTextTheme.apply(
+          displayColor: Colors.white,
+          bodyColor: Colors.white,
+        ),
         iconTheme: Theme.of(context).iconTheme.copyWith(
           color: Colors.white,
         ),
+        primaryIconTheme: Theme.of(context).primaryIconTheme.copyWith(
+          color: Colors.white,
+        ),
+        buttonColor: Colors.white,
       ),
       home: MyHomePage(title: 'Cute Doggos'),
     );
@@ -54,6 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
         backgroundColor: Colors.black87,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: _showAddDogForm,
+          ),
+        ],
+        centerTitle: true,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -72,5 +90,19 @@ class _MyHomePageState extends State<MyHomePage> {
         child: DogList(initialDoggos),
       ),
     );
+  }
+
+  Future _showAddDogForm() async {
+    Dog newDog = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return AddDogForm();
+        }
+      ),
+    );
+
+    if (newDog != null) {
+      initialDoggos.add(newDog);
+    }
   }
 }
