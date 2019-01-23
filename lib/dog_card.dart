@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'dog_detail_page.dart';
 import 'dog_model.dart';
 
 class DogCard extends StatefulWidget {
@@ -59,27 +60,22 @@ class _DogCardState extends State<DogCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              // 기본 코드에 하얀색 코드 추가함.
               Text(
                 widget.dog.name,
-                style: Theme.of(context).textTheme.headline
-                    .copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.headline,
               ),
               Text(
                 widget.dog.location,
-                style: Theme.of(context).textTheme.subhead
-                    .copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.subhead,
               ),
               Row(
                 children: <Widget>[
                   Icon(
                     Icons.star,
-                    color: Colors.white,
                   ),
                   Text(
                     ': ${widget.dog.rating} / 10',
-                    style: Theme.of(context).textTheme.caption
-                        .copyWith(color: Colors.white),
+                    style: Theme.of(context).textTheme.caption,
                   ),
                 ],
               ),
@@ -92,20 +88,30 @@ class _DogCardState extends State<DogCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-//      padding: EdgeInsets.all(0.0),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-//        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        height: 115.0,
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              left: 50.0,
-              child: dogCard,
-            ),
-            Positioned(top:7.5, child: dogImage),
-          ],
+    return InkWell(
+      // 짧아서 따로 분리하지 않았음. 나중에 길어지면 함수로 분리 가능.
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_context) {
+              return DogDetailPage(widget.dog);
+            }
+          ),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: Container(
+          height: 115.0,
+          child: Stack(
+            children: <Widget>[
+              Positioned(
+                left: 50.0,
+                child: dogCard,
+              ),
+              Positioned(top:7.5, child: dogImage),
+            ],
+          ),
         ),
       ),
     );
