@@ -37,7 +37,10 @@ class _DogCardState extends State<DogCard> {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
-          image: NetworkImage(renderUrl ?? ''),
+          // 기존 샘플코드로 할 경우 renderUrl이 아직 세팅 되지 않았을 때 에러가 발생함.
+          image: (renderUrl != null && renderUrl.length != 0)
+              ? NetworkImage(renderUrl)
+              : AssetImage('images/sample.jpg'),
           fit: BoxFit.cover,
         ),
       ),
@@ -56,18 +59,28 @@ class _DogCardState extends State<DogCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
+              // 기본 코드에 하얀색 코드 추가함.
               Text(
                 widget.dog.name,
-                style: Theme.of(context).textTheme.headline,
+                style: Theme.of(context).textTheme.headline
+                    .copyWith(color: Colors.white),
               ),
               Text(
                 widget.dog.location,
-                style: Theme.of(context).textTheme.subhead,
+                style: Theme.of(context).textTheme.subhead
+                    .copyWith(color: Colors.white),
               ),
               Row(
                 children: <Widget>[
-                  Icon(Icons.star),
-                  Text(': ${widget.dog.rating} / 10'),
+                  Icon(
+                    Icons.star,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    ': ${widget.dog.rating} / 10',
+                    style: Theme.of(context).textTheme.caption
+                        .copyWith(color: Colors.white),
+                  ),
                 ],
               ),
             ],
