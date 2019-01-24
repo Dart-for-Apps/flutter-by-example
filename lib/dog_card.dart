@@ -31,10 +31,10 @@ class _DogCardState extends State<DogCard> {
   }
   
   Widget get dogImage {
-    return Container(
+    Widget dogAvatar = Container(
       width: 100.0,
       height: 100.0,
-      
+
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
@@ -45,6 +45,34 @@ class _DogCardState extends State<DogCard> {
           fit: BoxFit.cover,
         ),
       ),
+    );
+
+    Widget placeholder = Container(
+      width: 100.0,
+      height: 100.0,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.black54, Colors.black, Colors.blueGrey[600]
+          ],
+        ),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        "DOGGOS",
+        textAlign: TextAlign.center,
+      ),
+    );
+    return AnimatedCrossFade(
+      firstChild: placeholder,
+      secondChild: dogAvatar,
+      crossFadeState: renderUrl == null
+          ? CrossFadeState.showFirst
+          : CrossFadeState.showSecond,
+      duration: Duration(milliseconds: 1000),
     );
   }
 

@@ -55,11 +55,20 @@ class _AddDogFormState extends State<AddDogForm> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 // 잘못된 context 사용 예제 제거
-                child: RaisedButton(
-                  onPressed: () => _submitPup(context),
-                  color: Colors.indigoAccent,
-                  child: Text('Submit Pup'),
-                ),
+                child: Builder(
+                  builder: (BuildContext _context) {
+                    // Scaffold.of() 를 사용하기 위해서는
+                    // Scaffold 가 있는 위젯의 context가 필요하다.
+                    // 현재 위젯의 context는 MaterialApp 만 존재하고,
+                    // 이 위젯이 만드는 하위 위젯의 context에 Scaffold가 생기므로
+                    // 강제로 Builder() 를 사용해서 현재 위젯의 context를 전달한다.
+                    return RaisedButton(
+                      onPressed: () => _submitPup(_context),
+                      color: Colors.indigoAccent,
+                      child: Text('Submit Pup'),
+                    );
+                  }
+                )
               ),
             ],
           ),
@@ -70,7 +79,12 @@ class _AddDogFormState extends State<AddDogForm> {
 
   void _submitPup(BuildContext context) {
     if (nameController.text.isEmpty) {
-      print("Dogs need names!");
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: Text('Pup needs name!')
+        ),
+      );
     } else {
       Dog newDog = Dog(nameController.text, locationController.text, descController.text);
       Navigator.of(context).pop(newDog);

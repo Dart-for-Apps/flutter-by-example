@@ -53,6 +53,10 @@ class DogDetailPageState extends State<DogDetailPage> {
         RaisedButton(
           color: Colors.indigoAccent,
           onPressed: () {
+            if (_sliderValue < 4) {
+              _ratingErrorDialog();
+              return;
+            }
             setState(() {
               widget.dog.rating = _sliderValue.toInt();
             });
@@ -149,6 +153,24 @@ class DogDetailPageState extends State<DogDetailPage> {
           rating,
         ],
       ),
+    );
+  }
+
+  Future<Null> _ratingErrorDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Rating Error!"),
+          content: Text("They're good dogs, Brant."),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("Try again"),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+      }
     );
   }
 
