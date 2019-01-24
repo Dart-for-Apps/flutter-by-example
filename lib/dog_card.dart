@@ -31,18 +31,21 @@ class _DogCardState extends State<DogCard> {
   }
   
   Widget get dogImage {
-    Widget dogAvatar = Container(
-      width: 100.0,
-      height: 100.0,
+    Widget dogAvatar = Hero(
+      tag: widget.dog,
+      child: Container(
+        width: 100.0,
+        height: 100.0,
 
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          // 기존 샘플코드로 할 경우 renderUrl이 아직 세팅 되지 않았을 때 에러가 발생함.
-          image: (renderUrl != null && renderUrl.length != 0)
-              ? NetworkImage(renderUrl)
-              : AssetImage('images/sample.jpg'),
-          fit: BoxFit.cover,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: DecorationImage(
+            // 기존 샘플코드로 할 경우 renderUrl이 아직 세팅 되지 않았을 때 에러가 발생함.
+            image: (renderUrl != null && renderUrl.length != 0)
+                ? NetworkImage(renderUrl)
+                : AssetImage('images/sample.jpg'),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

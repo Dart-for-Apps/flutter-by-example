@@ -67,34 +67,37 @@ class DogDetailPageState extends State<DogDetailPage> {
     );
   }
   Widget get dogImage {
-    return Container(
-      height: dogAvatarSize,
-      width: dogAvatarSize,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        boxShadow: [
-          const BoxShadow(
-            offset: const Offset(1.0, 2.0),
-            blurRadius: 2.0,
-            spreadRadius: -1.0,
-            color: const Color(0x33000000),
+    return Hero(
+      tag: widget.dog,
+      child: Container(
+        height: dogAvatarSize,
+        width: dogAvatarSize,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: [
+            const BoxShadow(
+              offset: const Offset(1.0, 2.0),
+              blurRadius: 2.0,
+              spreadRadius: -1.0,
+              color: const Color(0x33000000),
+            ),
+            const BoxShadow(
+              offset: const Offset(2.0, 1.0),
+              blurRadius: 3.0,
+              spreadRadius: 0.0,
+              color: const Color(0x24000000),
+            ),
+            const BoxShadow(
+              offset: const Offset(3.0, 1.0),
+              blurRadius: 4.0,
+              spreadRadius: 2.0,
+              color: const Color(0x1f000000),
+            ),
+          ],
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(widget.dog.imageUrl),
           ),
-          const BoxShadow(
-            offset: const Offset(2.0, 1.0),
-            blurRadius: 3.0,
-            spreadRadius: 0.0,
-            color: const Color(0x24000000),
-          ),
-          const BoxShadow(
-            offset: const Offset(3.0, 1.0),
-            blurRadius: 4.0,
-            spreadRadius: 2.0,
-            color: const Color(0x1f000000),
-          ),
-        ],
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: NetworkImage(widget.dog.imageUrl),
         ),
       ),
     );
