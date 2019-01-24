@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'dog_model.dart';
 
-class DogDetailPage extends StatelessWidget {
+class DogDetailPage extends StatefulWidget {
   final Dog dog;
-  final double dogAvatarSize = 150.0;
 
   DogDetailPage(this.dog);
+
+  @override
+  DogDetailPageState createState() {
+    return new DogDetailPageState();
+  }
+}
+
+class DogDetailPageState extends State<DogDetailPage> {
+  final double dogAvatarSize = 150.0;
 
   Widget get dogImage {
     return Container(
@@ -35,13 +43,13 @@ class DogDetailPage extends StatelessWidget {
         ],
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: NetworkImage(dog.imageUrl),
+          image: NetworkImage(widget.dog.imageUrl),
         ),
       ),
     );
   }
 
-  Widget getRating(BuildContext context) {
+  Widget get rating {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -50,14 +58,14 @@ class DogDetailPage extends StatelessWidget {
           size: 40.0,
         ),
         Text(
-          ' ${dog.rating} / 10',
+          ' ${widget.dog.rating} / 10',
           style: Theme.of(context).textTheme.display2,
         ),
       ],
     );
   }
 
-  Widget getDogProfile(BuildContext context) {
+  Widget get dogProfile {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 32.0),
       decoration: BoxDecoration(
@@ -80,18 +88,18 @@ class DogDetailPage extends StatelessWidget {
           // 적절한 스페이싱 추가: 디스크립션의 패딩과 일치 시킴
           SizedBox(height: 16.0),
           Text(
-            '${dog.name}  🎾',
+            '${widget.dog.name}  🎾',
             style: TextStyle(fontSize: 32.0),
           ),
           Text(
-            dog.location,
+            widget.dog.location,
             style: TextStyle(fontSize: 20.0),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-            child: Text(dog.description),
+            child: Text(widget.dog.description),
           ),
-          getRating(context),
+          rating,
         ],
       ),
     );
@@ -102,9 +110,9 @@ class DogDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black87,
-        title: Text('Meet ${dog.name}'),
+        title: Text('Meet ${widget.dog.name}'),
       ),
-      body: getDogProfile(context),
+      body: dogProfile,
     );
   }
 }
