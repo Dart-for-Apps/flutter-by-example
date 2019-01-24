@@ -14,7 +14,54 @@ class DogDetailPage extends StatefulWidget {
 
 class DogDetailPageState extends State<DogDetailPage> {
   final double dogAvatarSize = 150.0;
+  double _sliderValue = 10.0;
 
+  Widget get addYourRating {
+    return Column(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Slider(
+                  activeColor: Colors.indigoAccent,
+                  onChanged: (double rating) {
+                    setState(() {
+                      _sliderValue = rating;
+                      print("rating is $rating");
+                    });
+                  },
+                  value: _sliderValue,
+                  max: 10.1,
+                  min: 0.0,
+                ),
+              ),
+              Container(
+                width: 50.0,
+                alignment: Alignment.center,
+                child: Text(
+                  '${_sliderValue.toInt()}',
+                  style: Theme.of(context).textTheme.display1,
+                ),
+              ),
+            ],
+          ),
+        ),
+        RaisedButton(
+          color: Colors.indigoAccent,
+          onPressed: () {
+            setState(() {
+              widget.dog.rating = _sliderValue.toInt();
+            });
+          },
+          child: Text("Submit"),
+        ),
+      ],
+    );
+  }
   Widget get dogImage {
     return Container(
       height: dogAvatarSize,
@@ -112,7 +159,12 @@ class DogDetailPageState extends State<DogDetailPage> {
         backgroundColor: Colors.black87,
         title: Text('Meet ${widget.dog.name}'),
       ),
-      body: dogProfile,
+      body: ListView(
+        children: <Widget>[
+          dogProfile,
+          addYourRating,
+        ],
+      ),
     );
   }
 }
